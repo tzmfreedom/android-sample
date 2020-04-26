@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Standard</string>
-    <string name="recent_tweet">最新ツイート</string>
+    <string name="home">最新ツイート</string>
+    <string name="search">検索</string>
+    <string name="message">メッセージ</string>
+    <string name="notification">通知</string>
+    <string name="action_settings">設定</string>
+    <string name="drawer_open">開く</string>
+    <string name="drawer_close">閉じる</string>
 </resources>
