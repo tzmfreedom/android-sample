@@ -15,6 +15,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.freedom_man.standard.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*

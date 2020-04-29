@@ -67,8 +67,8 @@ class OtherFragment : Fragment() {
                         .load(url)
                         .into(image)
                     image.setOnClickListener {
-                        val ft = fragmentManager?.beginTransaction()
-                        ft?.addToBackStack(null)
+                        val ft = parentFragmentManager.beginTransaction()
+                        ft.addToBackStack(null)
                         val dialog = ImageDialogFragment.newInstance(url)
                         dialog.show(ft, "dialog")
                     }
@@ -114,7 +114,7 @@ class OtherFragment : Fragment() {
         }
         override fun onActivityCreated(savedInstanceState: Bundle?) {
             super.onActivityCreated(savedInstanceState)
-            val dialog = dialog
+            val dialog = dialog!!
             val lp = dialog.window!!.attributes
             val metrics = resources.displayMetrics
 
