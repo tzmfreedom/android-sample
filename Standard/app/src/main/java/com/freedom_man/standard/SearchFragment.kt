@@ -9,6 +9,9 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 
 class SearchFragment : Fragment() {
+    companion object {
+        fun newInstance() = SearchFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

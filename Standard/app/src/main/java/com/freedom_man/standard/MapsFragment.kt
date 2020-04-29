@@ -11,6 +11,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment() {
+    companion object {
+        fun newInstance() = MapsFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -18,9 +22,7 @@ class MapsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_maps, container, false)
         childFragmentManager.findFragmentById(R.id.mapFragment).let {
-            Log.d("MAP", it.toString())
             (it as SupportMapFragment).getMapAsync {
-                Log.d("MAP", it.toString())
                 it.setMinZoomPreference(14.0f)
                 val ny = LatLng(40.7143528, -74.0059731)
                 it.addMarker(MarkerOptions().position(ny));

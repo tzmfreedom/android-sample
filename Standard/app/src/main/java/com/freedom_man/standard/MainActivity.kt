@@ -1,24 +1,31 @@
 package com.freedom_man.standard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.navigation.NavigationView
+import com.freedom_man.standard.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.tweet_row.view.*
 
 class MainActivity : AppCompatActivity() {
-    private var pager: ViewPager? = null
-    private var adapter: FragmentPagerAdapter? = null
+    private val pager: ViewPager by lazy {
+        findViewById<ViewPager>(R.id.pager)
+    }
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
     private val titles: List<String> by lazy {
         listOf(
             getString(R.string.home),
@@ -36,20 +43,25 @@ class MainActivity : AppCompatActivity() {
 //        }
 //        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        viewModel.title.observe(this, Observer {
+            Log.d("MAIN_ACTIVITY", it)
+            binding.title = it
+        })
+        viewModel.title.postValue(titles[0])
 
         title = getString(R.string.home)
-        pager = findViewById<ViewPager>(R.id.pager).apply {
+        pager.apply {
             this.adapter = PagerAdapter(
                 supportFragmentManager, listOf(
-                    TweetFragment(),
-                    SearchFragment(),
-                    MapsFragment(),
-                    NameFragment("4")
+                    TweetFragment.newInstance(),
+                    SearchFragment.newInstance(),
+                    MapsFragment.newInstance(),
+                    OtherFragment.newInstance()
                 )
             )
         }
-        pager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -61,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                title = this@MainActivity.titles[position]
+                viewModel.title.postValue(this@MainActivity.titles[position])
             }
         })
         tabLayout.setupWithViewPager(pager)
@@ -84,18 +96,6 @@ class MainActivity : AppCompatActivity() {
         )
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState()
-    }
-
-    class NameFragment(private val name: String) : Fragment() {
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            val view = inflater.inflate(R.layout.tweet_row, container, false)
-            view.body.text = name
-            return view
-        }
     }
 
     class PagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>) : FragmentPagerAdapter(fm) {

@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class TweetFragment : Fragment() {
-    var adapter: TweetAdapter? = null
-
     companion object {
         fun newInstance() = TweetFragment()
     }
@@ -35,17 +33,16 @@ class TweetFragment : Fragment() {
         viewModel.load {
             Toast.makeText(this.context, it.message, Toast.LENGTH_SHORT).show()
         }
+        val adapter = TweetAdapter(listOf())
         viewModel.items.observe(this, Observer {
-            this@TweetFragment.adapter?.setItems(it)
+            adapter.setItems(it)
         })
         view?.apply {
-            this@TweetFragment.adapter = TweetAdapter(listOf())
             this.findViewById<RecyclerView>(R.id.tweet_items)?.apply {
-                this.adapter = this@TweetFragment.adapter
+                this.adapter = adapter
                 this.layoutManager = LinearLayoutManager(this@TweetFragment.context, LinearLayoutManager.VERTICAL, false)
                 this.addItemDecoration(DividerItemDecoration(this@TweetFragment.context, DividerItemDecoration.VERTICAL))
             }
         }
     }
-
 }

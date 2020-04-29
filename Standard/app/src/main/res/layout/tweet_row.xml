@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:padding="10dp"/>
-    <TextView
-        android:id="@+id/body"
+    >
+    <data>
+        <variable name="tweet" type="com.freedom_man.standard.TweetItem" />
+    </data>
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left|top"
-        android:padding="10dp"
-        android:textSize="15dp"/>
-</LinearLayout>
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:padding="10dp"
+            />
+        <TextView
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:text="@{tweet.body}"/>
+    </LinearLayout>
+</layout>
