@@ -9,11 +9,8 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.firebase.quickstart.fcm.R
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -73,8 +70,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun scheduleJob() {
         // [START dispatch_job]
-        val work = OneTimeWorkRequest.Builder(MyWorker::class.java).build()
-        WorkManager.getInstance().beginWith(work).enqueue()
+//        val work = OneTimeWorkRequest.Builder(MyWorker::class.java).build()
+//        WorkManager.getInstance().beginWith(work).enqueue()
         // [END dispatch_job]
     }
 
@@ -109,13 +106,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_ONE_SHOT)
 
-        val channelId = getString(R.string.default_notification_channel_id)
+        val channelId = "hoge"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_stat_ic_notification)
-            .setContentTitle(getString(R.string.fcm_message))
+            .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+            .setContentTitle("hello")
             .setContentText(messageBody)
             .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
 
