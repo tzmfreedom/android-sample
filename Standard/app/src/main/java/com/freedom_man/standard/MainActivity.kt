@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.freedom_man.standard.databinding.ActivityMainBinding
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -93,9 +94,18 @@ class MainActivity : AppCompatActivity() {
         )
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState()
+
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("FIREBASE", "getInstanceId failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            Log.i("FIREBASE", "[CALLBACK] Token = ${task.result?.token}")
+        }
     }
 
-    class PagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>) : FragmentPagerAdapter(fm) {
+    class PagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>) : FragmentPagerAdapter(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
             return fragments[position]
         }
