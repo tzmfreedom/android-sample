@@ -8,15 +8,20 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 
-class SearchFragment : Fragment() {
+class WebviewFragment : Fragment() {
     companion object {
-        fun newInstance() = SearchFragment()
+        fun newInstance() = WebviewFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_search, container, false)
+        val webview = view.findViewById<WebView>(R.id.webview)
+        webview.webViewClient = WebViewClient()
+        webview.loadUrl("https://google.co.jp")
+        return view
     }
 }

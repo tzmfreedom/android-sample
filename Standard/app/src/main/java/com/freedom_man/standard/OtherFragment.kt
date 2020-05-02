@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.freedom_man.standard.databinding.CarouselCardRowBinding
 import com.freedom_man.standard.databinding.CarouselRowBinding
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
 
@@ -160,6 +162,13 @@ class OtherFragment : Fragment() {
 
         override fun onBindViewHolder(holder: CarouselCardViewHolder, position: Int) {
             holder.binding.item = items[position]
+            holder.itemView.setOnClickListener {
+                Snackbar.make(it, items[position].body, Snackbar.LENGTH_SHORT)
+                    .setAction("なんかする") { v ->
+                        Toast.makeText(v.context, "なんか", Toast.LENGTH_SHORT).show()
+                    }
+                    .show()
+            }
         }
     }
 
