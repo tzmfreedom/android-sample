@@ -21,7 +21,7 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="TransparentDialogTheme" parent="@android:style/Theme.Light">
+    <style name="TransparentDialogTheme" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>

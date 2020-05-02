@@ -2,16 +2,12 @@ package com.freedom_man.standard
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 
 class TweetFragment : Fragment() {
     companion object {
@@ -27,7 +23,6 @@ class TweetFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("TWEET", "FUGA")
         requireActivity().onBackPressedDispatcher.addCallback {
             val count = childFragmentManager.findFragmentById(R.id.nav_host_home)!!.childFragmentManager.backStackEntryCount
             if (count == 0) {

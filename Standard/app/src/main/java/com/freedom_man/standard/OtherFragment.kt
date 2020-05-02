@@ -1,5 +1,8 @@
 package com.freedom_man.standard
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -88,8 +91,10 @@ class OtherFragment : Fragment() {
                 return fragment
             }
         }
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
+            // dialogのプロパティが適切にセットされていないとoutsideクリックとか判定してくれなくて大変
             setStyle(STYLE_NORMAL, R.style.TransparentDialogTheme)
         }
 
@@ -111,21 +116,6 @@ class OtherFragment : Fragment() {
                 dismiss()
             }
             return view
-        }
-        override fun onActivityCreated(savedInstanceState: Bundle?) {
-            super.onActivityCreated(savedInstanceState)
-            val dialog = dialog!!
-            val lp = dialog.window!!.attributes
-            val metrics = resources.displayMetrics
-
-            // 画面サイズの0.8倍の大きさに指定
-            val dialogWidth = (metrics.widthPixels * 0.8).toInt()
-            val dialogHeight = (metrics.heightPixels * 0.8).toInt()
-            lp.width = dialogWidth
-            lp.height = dialogHeight
-            lp.dimAmount = 0.7f
-            dialog.window!!.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            dialog.window!!.attributes = lp
         }
     }
 
