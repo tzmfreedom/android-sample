@@ -7,16 +7,23 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-
+import java.util.*
 
 class TweetViewModel : ViewModel() {
     companion object {
         const val BASE_URI = "https://script.google.com/"
+        const val EXPIRE_TIME = 5
     }
 
     val items: MutableLiveData<List<TweetItem>> = MutableLiveData()
+    val detailIndex: MutableLiveData<Int> = MutableLiveData()
+    val item: TweetItem?
+        get() {
+            return items.value?.get(detailIndex.value!!)
+        }
+    var expired: Calendar = Calendar.getInstance()
 
-    fun load(failure: (Throwable) -> Unit) {
+    fun load(success: (List<TweetItem>) -> Unit, failure: (Throwable) -> Unit) {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URI)
             .addConverterFactory(GsonConverterFactory.create())
@@ -28,9 +35,19 @@ class TweetViewModel : ViewModel() {
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                expired = Calendar.getInstance()
+                expired.add(Calendar.SECOND, EXPIRE_TIME)
                 items.postValue(it)
-            }, {
-                failure(it)
-            })
+                success(it)
+            }, failure)
+    }
+
+    fun setDetailIndex(index: Int) {
+        detailIndex.postValue(index)
+    }
+
+    fun isExpired(): Boolean {
+        val now = Calendar.getInstance()
+        return this.expired < now
     }
 }

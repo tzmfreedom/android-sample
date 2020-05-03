@@ -7,11 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 
 class TweetFragment : Fragment() {
     companion object {
         fun newInstance() = TweetFragment()
+    }
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(activity!!).get(TweetViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -28,6 +33,9 @@ class TweetFragment : Fragment() {
             if (count == 0) {
                 activity?.finish()
             } else {
+                if (count == 1) {
+                    viewModel.detailIndex.postValue(-1)
+                }
                 Navigation.findNavController(view!!.findViewById(R.id.nav_host_home)).navigateUp()
             }
         }

@@ -1,5 +1,6 @@
 package com.freedom_man.standard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -10,20 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.freedom_man.standard.databinding.TweetRowBinding
 
 
-class TweetAdapter(private var items: List<TweetItem>) : RecyclerView.Adapter<TweetViewHolder>() {
+class TweetAdapter(private val viewModel: TweetViewModel, private var items: List<TweetItem>) : RecyclerView.Adapter<TweetViewHolder>() {
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: TweetViewHolder, position: Int) {
         val item = items[position]
         holder.binding.tweet = item
         holder.setIcon("https://i.picsum.photos/id/${position}/50/50.jpg")
-        holder.itemView.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.action_tweetListFragment_to_tweetRecordFragment)
-        )
-//         {
-//            val item = items[position]
-//            Toast.makeText(it.context, item.body, Toast.LENGTH_SHORT).show()
-//        }
+        holder.itemView.setOnClickListener{
+            viewModel.setDetailIndex(position)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetViewHolder {
@@ -37,6 +34,9 @@ class TweetAdapter(private var items: List<TweetItem>) : RecyclerView.Adapter<Tw
     }
 
     fun setItems(items: List<TweetItem>) {
+        if (this.items == items) {
+            return
+        }
         this.items = items
         notifyDataSetChanged()
     }
